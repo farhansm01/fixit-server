@@ -1,11 +1,10 @@
 import { Router, Request, Response } from "express";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 
 const router = Router();
 
 /**
  * POST /api/v1/categories
- * Create a new service category
  */
 router.post("/", async (req: Request, res: Response) => {
   try {
@@ -47,7 +46,6 @@ router.post("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/categories
- * Get all categories with optional services inclusion
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -80,7 +78,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/categories/:id
- * Get specific category by ID with associated services
  */
 router.get("/:id", async (req: Request, res: Response) => {
   try {
@@ -118,7 +115,6 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 /**
  * PATCH /api/v1/categories/:id
- * Update category details
  */
 router.patch("/:id", async (req: Request, res: Response) => {
   try {
@@ -156,7 +152,6 @@ router.patch("/:id", async (req: Request, res: Response) => {
 
 /**
  * DELETE /api/v1/categories/:id
- * Soft delete category
  */
 router.delete("/:id", async (req: Request, res: Response) => {
   try {

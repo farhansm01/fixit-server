@@ -1,12 +1,11 @@
 import { Router, Request, Response } from "express";
-import prisma from "../lib/prisma";
-import { authenticate, AuthRequest } from "../middlewares/auth";
+import prisma from "../../lib/prisma";
+import { authenticate, AuthRequest } from "../../middlewares/auth";
 
 const router = Router();
 
 /**
  * POST /api/v1/bookings
- * Create a new service booking
  */
 router.post("/", authenticate, async (req: AuthRequest, res: Response) => {
   try {
@@ -20,7 +19,6 @@ router.post("/", authenticate, async (req: AuthRequest, res: Response) => {
       });
     }
 
-    // Verify service exists
     const service = await prisma.service.findUnique({
       where: { id: serviceId },
     });
@@ -66,7 +64,6 @@ router.post("/", authenticate, async (req: AuthRequest, res: Response) => {
 
 /**
  * GET /api/v1/bookings
- * Get all bookings with filtering & status
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -124,7 +121,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/bookings/:id
- * Get single booking by ID
  */
 router.get("/:id", async (req: Request, res: Response) => {
   try {
@@ -165,7 +161,6 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 /**
  * PATCH /api/v1/bookings/:id
- * Update booking status (PENDING, CONFIRMED, COMPLETED, CANCELLED)
  */
 router.patch("/:id", async (req: Request, res: Response) => {
   try {
@@ -211,7 +206,6 @@ router.patch("/:id", async (req: Request, res: Response) => {
 
 /**
  * DELETE /api/v1/bookings/:id
- * Cancel / Soft delete booking
  */
 router.delete("/:id", async (req: Request, res: Response) => {
   try {

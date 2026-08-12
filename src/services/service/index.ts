@@ -1,11 +1,10 @@
 import { Router, Request, Response } from "express";
-import prisma from "../lib/prisma";
+import prisma from "../../lib/prisma";
 
 const router = Router();
 
 /**
  * POST /api/v1/services
- * Create a new home service (e.g. Plumbing Repair, Electrical Wiring)
  */
 router.post("/", async (req: Request, res: Response) => {
   try {
@@ -18,7 +17,6 @@ router.post("/", async (req: Request, res: Response) => {
       });
     }
 
-    // Verify category exists
     const categoryExists = await prisma.category.findUnique({
       where: { id: categoryId },
     });
@@ -58,7 +56,6 @@ router.post("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/services
- * Get all services with filtering, search, and pagination
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -119,7 +116,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/services/:id
- * Get single service details with reviews
  */
 router.get("/:id", async (req: Request, res: Response) => {
   try {
@@ -163,7 +159,6 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 /**
  * PATCH /api/v1/services/:id
- * Update service details
  */
 router.patch("/:id", async (req: Request, res: Response) => {
   try {
@@ -206,7 +201,6 @@ router.patch("/:id", async (req: Request, res: Response) => {
 
 /**
  * DELETE /api/v1/services/:id
- * Soft delete service
  */
 router.delete("/:id", async (req: Request, res: Response) => {
   try {

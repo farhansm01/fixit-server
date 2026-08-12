@@ -1,10 +1,10 @@
 import { Router } from "express";
 import auth from "../services/auth";
-import users from "../services/users";
-import categories from "../services/categories";
-import services from "../services/services";
-import bookings from "../services/bookings";
-import reviews from "../services/reviews";
+import user from "../services/user";
+import category from "../services/category";
+import service from "../services/service";
+import booking from "../services/booking";
+import review from "../services/review";
 
 const router = Router();
 
@@ -13,22 +13,22 @@ const router = Router();
  * Base Path: /api/v1
  */
 
-// Authentication Routes
+// Authentication Routes (/api/v1/auth)
 router.use("/auth", auth);
 
-// User Management Routes
-router.use("/users", users);
+// User Management Routes (/api/v1/users)
+router.use("/users", user);
 
-// Category Management Routes
-router.use("/categories", categories);
+// Category Management Routes (/api/v1/categories)
+router.use("/categories", category);
 
-// Home Services Routes
-router.use("/services", services);
+// Home Services Routes (/api/v1/services)
+router.use("/services", service);
 
-// Booking Management Routes
-router.use("/bookings", bookings);
+// Booking Management Routes (/api/v1/bookings)
+router.use("/bookings", booking);
 
-// Ratings & Reviews Routes
-router.use("/reviews", reviews);
+// Ratings & Reviews Routes (/api/v1/reviews)
+router.use("/reviews", review);
 
 export default router;

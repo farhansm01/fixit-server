@@ -1,12 +1,11 @@
 import { Router, Request, Response } from "express";
-import prisma from "../lib/prisma";
-import { authenticate, AuthRequest } from "../middlewares/auth";
+import prisma from "../../lib/prisma";
+import { authenticate, AuthRequest } from "../../middlewares/auth";
 
 const router = Router();
 
 /**
  * POST /api/v1/reviews
- * Submit a rating and review for a service
  */
 router.post("/", authenticate, async (req: AuthRequest, res: Response) => {
   try {
@@ -27,7 +26,6 @@ router.post("/", authenticate, async (req: AuthRequest, res: Response) => {
       });
     }
 
-    // Verify service exists
     const service = await prisma.service.findUnique({
       where: { id: serviceId },
     });
@@ -70,7 +68,6 @@ router.post("/", authenticate, async (req: AuthRequest, res: Response) => {
 
 /**
  * GET /api/v1/reviews
- * Fetch reviews (can filter by serviceId or userId)
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -114,7 +111,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/reviews/:id
- * Fetch single review by ID
  */
 router.get("/:id", async (req: Request, res: Response) => {
   try {
@@ -153,7 +149,6 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 /**
  * PATCH /api/v1/reviews/:id
- * Update review content or rating
  */
 router.patch("/:id", async (req: Request, res: Response) => {
   try {
@@ -191,7 +186,6 @@ router.patch("/:id", async (req: Request, res: Response) => {
 
 /**
  * DELETE /api/v1/reviews/:id
- * Soft delete review
  */
 router.delete("/:id", async (req: Request, res: Response) => {
   try {

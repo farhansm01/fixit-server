@@ -1,21 +1,18 @@
 import { Router, Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import prisma from "../lib/prisma";
-import { generateToken } from "../lib/jwt";
-import { authenticate, AuthRequest } from "../middlewares/auth";
+import prisma from "../../lib/prisma";
+import { generateToken } from "../../lib/jwt";
+import { authenticate, AuthRequest } from "../../middlewares/auth";
 
 const router = Router();
 
 /**
  * POST /api/v1/auth/register
- * 
- * Register a new user with hashed password & return JWT token
  */
 router.post("/register", async (req: Request, res: Response) => {
   try {
     const { name, email, password, role, phone } = req.body;
 
-    // Validate required fields
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -23,7 +20,6 @@ router.post("/register", async (req: Request, res: Response) => {
       });
     }
 
-    // Check if email is already registered
     const existingUser = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
     });
@@ -35,10 +31,8 @@ router.post("/register", async (req: Request, res: Response) => {
       });
     }
 
-    // Hash password with bcrypt (10 rounds)
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user in database
     const newUser = await prisma.user.create({
       data: {
         name,
@@ -58,7 +52,6 @@ router.post("/register", async (req: Request, res: Response) => {
       },
     });
 
-    // Generate JWT token
     const token = generateToken({
       userId: newUser.id,
       email: newUser.email,
@@ -84,14 +77,11 @@ router.post("/register", async (req: Request, res: Response) => {
 
 /**
  * POST /api/v1/auth/login
- * 
- * Authenticate user with email and password & return JWT token
  */
 router.post("/login", async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
 
-    // Validate request body
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -99,7 +89,6 @@ router.post("/login", async (req: Request, res: Response) => {
       });
     }
 
-    // Find user by email
     const user = await prisma.user.findUnique({
       where: { email: email.toLowerCase() },
     });
@@ -111,7 +100,6 @@ router.post("/login", async (req: Request, res: Response) => {
       });
     }
 
-    // Verify password with bcrypt
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -120,14 +108,12 @@ router.post("/login", async (req: Request, res: Response) => {
       });
     }
 
-    // Generate JWT token
     const token = generateToken({
       userId: user.id,
       email: user.email,
       role: user.role,
     });
 
-    // Return user without password
     const { password: _, ...userWithoutPassword } = user;
 
     res.status(200).json({
@@ -149,8 +135,6 @@ router.post("/login", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/auth/me
- * 
- * Get currently authenticated user profile
  */
 router.get("/me", authenticate, async (req: AuthRequest, res: Response) => {
   try {

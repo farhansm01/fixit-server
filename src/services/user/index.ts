@@ -1,13 +1,11 @@
 import { Router, Request, Response } from "express";
 import bcrypt from "bcryptjs";
-import prisma from "../lib/prisma";
-import { authenticate, authorizeRoles } from "../middlewares/auth";
+import prisma from "../../lib/prisma";
 
 const router = Router();
 
 /**
  * POST /api/v1/users
- * Create a new user (Admin access or registration)
  */
 router.post("/", async (req: Request, res: Response) => {
   try {
@@ -63,7 +61,6 @@ router.post("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/users
- * Get all active users
  */
 router.get("/", async (req: Request, res: Response) => {
   try {
@@ -99,7 +96,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 /**
  * GET /api/v1/users/:id
- * Get single user by ID with bookings & reviews
  */
 router.get("/:id", async (req: Request, res: Response) => {
   try {
@@ -150,7 +146,6 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 /**
  * PATCH /api/v1/users/:id
- * Update user information
  */
 router.patch("/:id", async (req: Request, res: Response) => {
   try {
@@ -199,7 +194,6 @@ router.patch("/:id", async (req: Request, res: Response) => {
 
 /**
  * DELETE /api/v1/users/:id
- * Soft delete user
  */
 router.delete("/:id", async (req: Request, res: Response) => {
   try {
